@@ -7,6 +7,8 @@ class Register extends Component {
     password: "",
     email: "",
     passwordConfirm: "",
+    errors: [],
+    loading: false,
   };
   changeHandler = (e) => {
     const updatedState = { ...this.state };
@@ -15,20 +17,60 @@ class Register extends Component {
   };
   submitHandler = (e) => {
     e.preventDefault();
-    //console.log(this.state);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if (this.isFormValid(this.state)) {
+      console.log("isform valid");
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          this.setState({ errors: [err.message] });
+        });
+    }
+  };
+  isFormValid = ({ username, password, passwordConfirm }) => {
+    return (
+      this.isUserNameValid(username) &&
+      this.isPasswordValid(password, passwordConfirm)
+    );
+  };
+  isUserNameValid = (username) => {
+    if (username.length < 5) {
+      const error = "Username must be more than 5 characters";
+      let updatedErrors = [error];
+      if (updatedErrors.includes(error)) {
+        updatedErrors.concat(error);
+        console.log("di");
+      }
+      this.setState({ errors: updatedErrors });
+      console.log(this.state.errors);
+    } else {
+      this.setState({ errors: [] });
+      console.log(this.state.errors);
+      return true;
+    }
+  };
+  isPasswordValid = (pass, passConfirm) => {
+    if (pass !== passConfirm || pass.length < 7 || passConfirm.length < 7) {
+      const error = "Password Invalid!";
+      let updatedErrors = [error];
+      if (updatedErrors.includes(error)) {
+        updatedErrors.concat(error);
+        console.log("di");
+      }
+      this.setState({ errors: updatedErrors });
+      console.log(this.state.errors);
+    } else {
+      this.setState({ errors: [] });
+      return true;
+    }
   };
   render() {
     return (
       <div className={classes.Register}>
+        <div>{this.state.errors}</div>
         <h1>Register</h1>
         <form onSubmit={this.submitHandler} className={classes.RegisterForm}>
           <input
