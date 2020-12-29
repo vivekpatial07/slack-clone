@@ -1,0 +1,33 @@
+/* Classes names are same as Login form ,
+ In case styling becomes off change the names to
+ RegisterForm , RegisterInput and so on
+ */
+.Register {
+  text-align: center;
+}
+.RegisterForm {
+  text-align: center;
+  border: 1px solid grey;
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+  height: 300px;
+}
+.Input {
+  text-align: center;
+  margin: 10px auto;
+  border-radius: 5px;
+  width: 70%;
+  border: none;
+  height: 20px;
+  padding: 7px;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+}
+.Button {
+  margin: 7px auto;
+  width: 50%;
+  background-color: orange;
+  border: none;
+  height: 27px;
+  border-radius: 5px;
+}

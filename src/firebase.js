@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
+import "firebase/analytics";
 var firebaseConfig = {
   apiKey: "AIzaSyCHBQINXscbjk0A5HKm4P4aJzsg2aLhuZc",
   authDomain: "slack-clone-07.firebaseapp.com",
