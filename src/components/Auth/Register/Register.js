@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import classes from "./Register.css";
 // for authentication
 import firebase from "../../../firebase";
+//for generating hash
+import md5 from "md5";
 class Register extends Component {
   state = {
     username: "",
@@ -10,6 +12,8 @@ class Register extends Component {
     passwordConfirm: "",
     errors: [],
     loading: false,
+    //for database reference(setting to users)->this will refer to the user node in the database
+    userRef: firebase.database().ref("users"),
   };
   //for controlled component(input)
   changeHandler = (e) => {
@@ -20,21 +24,57 @@ class Register extends Component {
   //for form submission
   submitHandler = (e) => {
     e.preventDefault();
+
     if (this.isFormValid(this.state)) {
       console.log("isform valid");
-      //for created users via email and pass.
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          //for adding and showing firebase errors on the form
-          this.setState({ errors: [err.message] });
-        });
+      if (!this.state.loading) {
+        console.log(`loading...`);
+        this.setState({ loading: true });
+
+        firebase
+          //for created users via email and pass.
+          .auth()
+          .createUserWithEmailAndPassword(this.state.email, this.state.password)
+          .then((createdUser) => {
+            // console.log(createdUser);
+            createdUser.user
+              .updateProfile({
+                displayName: this.state.username,
+                photoURL: `http://gravatar.com/avatar/${md5(
+                  createdUser.user.email
+                )}?d=identicon`,
+              })
+              .then(() => {
+                //calling saveUser function and passing created user as param
+                this.saveUser(createdUser).then(() => {
+                  console.log(`user saved`);
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                this.setState({ errors: [err] });
+              });
+          })
+          .then(() => {
+            console.log("Signed In!");
+            this.setState({ loading: false });
+          })
+          .catch((err) => {
+            //for adding and showing firebase errors on the form
+            this.setState({ errors: [err.message], loading: false });
+          });
+      }
     }
   };
+  //saving user on database
+  saveUser = (userCreated) => {
+    //appending a child node as uid on users node and then adding two sub-nodes as name and avatar
+    return this.state.userRef.child(userCreated.user.uid).set({
+      name: userCreated.user.displayName,
+      avatar: userCreated.user.photoURL,
+    });
+  };
+
   //to check the form validity
   isFormValid = ({ username, password, passwordConfirm }) => {
     return (
@@ -58,7 +98,7 @@ class Register extends Component {
     } else {
       //for removing errors from the array so that nothing is shown on the browser
       this.setState({ errors: [] });
-      console.log(this.state.errors);
+      // console.log(this.state.errors);
       return true;
     }
   };
@@ -103,18 +143,21 @@ class Register extends Component {
           <input
             name="password"
             onChange={this.changeHandler}
-            type="password "
+            type="password"
             placeholder="password"
             className={classes.Input}
           />
           <input
             name="passwordConfirm"
             onChange={this.changeHandler}
-            type="password "
+            type="password"
             placeholder="Confirm password"
             className={classes.Input}
           />
-          <button className={classes.Button}>Register</button>
+
+          <button className={classes.Button} disabled={this.state.loading}>
+            Register
+          </button>
         </form>
       </div>
     );
