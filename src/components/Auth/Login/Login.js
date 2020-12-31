@@ -25,22 +25,28 @@ class Login extends Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-    if (!this.state.loading) {
-      console.log(this.state);
-      this.setState({ loading: true });
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((user) => {
-          console.log(user);
-          this.setState({ loading: false });
-        })
-        .catch((err) => {
-          console.log(err);
-          this.setState({ error: err.message, loading: false });
-        });
+    if (this.isFormValid(this.state)) {
+      if (!this.state.loading) {
+        console.log(this.state);
+        this.setState({ loading: true });
+        //For signing up the user with email and password via firebase
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+          .then((user) => {
+            console.log(user);
+            this.setState({ loading: false });
+          })
+          .catch((err) => {
+            console.log(err);
+            this.setState({ error: err.message, loading: false });
+          });
+      }
     }
   };
+
+  isFormValid = ({ email, password }) => email && password;
+
   render() {
     return (
       <div className={classes.Login}>
