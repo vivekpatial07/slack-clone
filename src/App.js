@@ -7,6 +7,7 @@ import Chat from "./components/Chat/Chat";
 import { connect } from "react-redux";
 import { setUser } from "./store/actions";
 import firebase from "./firebase";
+import Spinner from "./components/UI/Spinner/Spinner";
 
 class App extends Component {
   componentDidMount() {
@@ -23,7 +24,9 @@ class App extends Component {
     });
   }
   render() {
-    return (
+    return this.props.loading ? (
+      <Spinner />
+    ) : (
       <div className={classes.App}>
         {/* Just Routing */}
         <Switch>
@@ -37,4 +40,9 @@ class App extends Component {
 }
 //connecting react with redux using connect
 //passing setUser action
-export default connect(null, { setUser })(withRouter(App));
+const mapStateToProps = (state) => {
+  return {
+    loading: state.user.isLoading,
+  };
+};
+export default connect(mapStateToProps, { setUser })(withRouter(App));
