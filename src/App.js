@@ -38,6 +38,7 @@ class App extends Component {
     );
   }
 }
+//
 //connecting react with redux using connect
 //passing setUser action
 const mapStateToProps = (state) => {
