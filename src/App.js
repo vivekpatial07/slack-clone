@@ -1,24 +1,40 @@
 import React, { Component } from "react";
 import classes from "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import Chat from "./components/Chat/Chat";
+import { connect } from "react-redux";
+import { setUser } from "./store/actions";
+import firebase from "./firebase";
 
 class App extends Component {
+  componentDidMount() {
+    //for checking if user is signed in and do things if signed in!
+    firebase.auth().onAuthStateChanged((user) => {
+      // console.log(user);
+      if (user) {
+        // url loading but page not loading
+        // will fix the issue later
+        this.props.history.push("/");
+        //Dispatching Action
+        this.props.setUser(user);
+      }
+    });
+  }
   render() {
     return (
       <div className={classes.App}>
-        <Router>
-          <Switch>
-            <Route path="/" component={Chat} exact />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-          </Switch>
-        </Router>
+        {/* Just Routing */}
+        <Switch>
+          <Route path="/" component={Chat} exact />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </Switch>
       </div>
     );
   }
 }
-
-export default App;
+//connecting react with redux using connect
+//passing setUser action
+export default connect(null, { setUser })(withRouter(App));
