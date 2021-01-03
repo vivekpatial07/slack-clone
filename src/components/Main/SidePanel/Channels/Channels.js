@@ -10,8 +10,27 @@ class Channels extends Component {
     channelName: "",
     channelDescription: "",
     onChannelRef: firebase.database().ref("channels"),
+    channelLength: 0,
+    // channels: [],
   };
-  //For opening model
+
+  //for showing number of channels
+  // componentDidMount() {
+  //   this.state.onChannelRef.on(
+  //     "value",
+  //     (snapshot) => {
+  //       const channelsObj = snapshot.val();
+  //       const channels = Object.entries(channelsObj);
+  //       console.log(channels);
+  //       this.setState({ channelLength: channels.length, channels: channels });
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
+  // //For opening model
   addChannel = () => {
     this.setState({ showModal: true });
   };
@@ -61,9 +80,10 @@ class Channels extends Component {
     return (
       <div>
         <div>
-          Channels() <button onClick={this.addChannel}>+</button>
+          Channels({this.state.channelLength}){" "}
+          <button onClick={this.addChannel}>+</button>
         </div>
-        <Channel />
+        <Channel channelRef={this.state.onChannelRef} />
         {this.state.showModal ? (
           <Modal
             changed={this.inputChangeHanlder}
@@ -71,6 +91,7 @@ class Channels extends Component {
             channelAdded={this.channelAddedHandler}
           />
         ) : null}
+        {/* {this.state.channels} */}
       </div>
     );
   }

@@ -23,9 +23,13 @@ const userReducer = (state = initalUserState, action) => {
   }
 };
 // const initalChannelState = {
-
-// }
-
+//   channels: [],
+// };
+// const channelReducer = (state = initialChannelState, action) => {
+//   switch (action.type) {
+//     case actionTypes.SET_USER:
+//   }
+// };
 const rootReducer = combineReducers({
   user: userReducer,
 });
