@@ -4,6 +4,8 @@ import Modal from "./Modal/Modal";
 class Channels extends Component {
   state = {
     showModal: false,
+    channelName: "",
+    channelDescription: "",
   };
   //For opening model
   addChannel = () => {
@@ -15,6 +17,20 @@ class Channels extends Component {
     // console.log(`modal closed`);
     this.setState({ showModal: false });
   };
+  channelAddedHandler = (e) => {
+    e.preventDefault();
+    if (this.isFormValid(this.state)) {
+      console.log(`chanel added`);
+      this.setState({ showModal: false });
+    }
+  };
+  isFormValid({ channelName, channelDescription }) {
+    return channelName && channelDescription;
+  }
+  inputChangeHanlder = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+    console.log(this.state);
+  };
   render() {
     return (
       <div>
@@ -23,7 +39,11 @@ class Channels extends Component {
         </div>
         <Channel />
         {this.state.showModal ? (
-          <Modal modalClose={this.modalClosedHandler} />
+          <Modal
+            changed={this.inputChangeHanlder}
+            modalClose={this.modalClosedHandler}
+            channelAdded={this.channelAddedHandler}
+          />
         ) : null}
       </div>
     );
