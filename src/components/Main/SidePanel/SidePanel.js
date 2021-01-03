@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classes from "./SidePanel.css";
 import firebase from "../../../firebase";
-export class SidePanel extends Component {
+import Channels from "./Channels/Channels";
+class SidePanel extends Component {
   signOutHandler = () => {
     firebase
       .auth()
@@ -22,6 +23,9 @@ export class SidePanel extends Component {
           <p>Welcome! {this.props.username}</p>
         </div>
         <button onClick={this.signOutHandler}>Sign Out!</button>
+        <div>
+          <Channels />
+        </div>
       </div>
     );
   }
