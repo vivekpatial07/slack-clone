@@ -9,5 +9,4 @@ export class Channel extends Component {
     );
   }
 }
-
 export default Channel;
