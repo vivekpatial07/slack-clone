@@ -1,0 +1,10 @@
+.SidePanel {
+  display: inline;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: orange;
+  height: 100%;
+  margin: auto;
+  width: 27%;
+}

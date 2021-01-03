@@ -12,6 +12,12 @@ const userReducer = (state = initalState, action) => {
         isLoading: false,
         currentUser: action.payload.currentUser,
       };
+    case actionTypes.REMOVE_USER:
+      return {
+        ...state,
+        currentUser: null,
+        isLoading: false,
+      };
     default:
       return state;
   }

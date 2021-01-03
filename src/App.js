@@ -3,9 +3,9 @@ import classes from "./App.css";
 import { Switch, Route, withRouter } from "react-router-dom";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
-import Chat from "./components/Chat/Chat";
+import Main from "./components/Main/Main";
 import { connect } from "react-redux";
-import { setUser } from "./store/actions";
+import { setUser, removeUser } from "./store/actions";
 import firebase from "./firebase";
 import Spinner from "./components/UI/Spinner/Spinner";
 
@@ -20,6 +20,9 @@ class App extends Component {
         this.props.history.push("/");
         //Dispatching Action
         this.props.setUser(user);
+      } else {
+        this.props.history.push("/login");
+        this.props.removeUser();
       }
     });
   }
@@ -30,7 +33,7 @@ class App extends Component {
       <div className={classes.App}>
         {/* Just Routing */}
         <Switch>
-          <Route path="/" component={Chat} exact />
+          <Route path="/" component={Main} exact />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
@@ -44,6 +47,9 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.isLoading,
+    currentUser: state.user.currentUser,
   };
 };
-export default connect(mapStateToProps, { setUser })(withRouter(App));
+export default connect(mapStateToProps, { setUser, removeUser })(
+  withRouter(App)
+);
