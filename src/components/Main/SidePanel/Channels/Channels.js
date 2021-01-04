@@ -31,6 +31,10 @@ class Channels extends Component {
       }
     );
   }
+  componentWillUnmount() {
+    //removing all the listeners
+    this.state.onChannelRef.off();
+  }
 
   // //For opening model
   addChannel = () => {
