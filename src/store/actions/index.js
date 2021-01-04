@@ -17,11 +17,11 @@ export const removeUser = () => {
 
 // Channel actionCreators
 
-// export const setChannel = (channel) => {
-//   return {
-//     type: actionTypes.SET_CHANNEL,
-//     payload:{
-//       channel:
-//     }
-//   };
-// };
+export const setChannel = (channel) => {
+  return {
+    type: actionTypes.SET_CHANNEL,
+    payload: {
+      currentChannel: channel,
+    },
+  };
+};

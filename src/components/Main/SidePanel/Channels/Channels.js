@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Modal from "./Modal/Modal";
 import firebase from "../../../../firebase";
 import { connect } from "react-redux";
+import { setChannel } from "../../../../store/actions";
 class Channels extends Component {
   state = {
     //soon will change this state management to redux state mgmnt.
@@ -23,7 +24,7 @@ class Channels extends Component {
         const updatedChannel = [...this.state.channels];
         updatedChannel.push(snapshot.val());
         this.setState({ channels: updatedChannel });
-        console.log(this.state.channels);
+        // console.log(this.state.channels);
       },
       (err) => {
         console.log(err);
@@ -78,16 +79,16 @@ class Channels extends Component {
     this.setState({ [e.target.name]: e.target.value });
     console.log(this.state);
   };
-  // channelClicked = (e, id) => {
-  //   console.log(id);
-  // };
+  //for selecting and setting current channel on global state
+  channelClicked = (channel) => {
+    console.log(channel);
+    //setting active class remaining
+    this.props.setChannel(channel);
+  };
   render() {
     const allChannels = this.state.channels.map((channel) => {
       return (
-        <div
-          key={channel.id}
-          // onClick={(e, id) => this.channelClicked(e, id)}
-        >
+        <div key={channel.id} onClick={() => this.channelClicked(channel)}>
           #{channel.name}
         </div>
       );
@@ -118,6 +119,7 @@ class Channels extends Component {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
+    currentChannel: state.channel.currentChannel,
   };
 };
-export default connect(mapStateToProps)(Channels);
+export default connect(mapStateToProps, { setChannel })(Channels);
