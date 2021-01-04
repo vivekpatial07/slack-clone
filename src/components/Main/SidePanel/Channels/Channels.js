@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Channel from "./Channel/Channel";
+//  import Channel from "./Channel/Channel";
 import Modal from "./Modal/Modal";
 import firebase from "../../../../firebase";
 import { connect } from "react-redux";
@@ -10,25 +10,26 @@ class Channels extends Component {
     channelName: "",
     channelDescription: "",
     onChannelRef: firebase.database().ref("channels"),
-    channelLength: 0,
-    // channels: [],
+    channels: [],
   };
 
   //for showing number of channels
-  // componentDidMount() {
-  //   this.state.onChannelRef.on(
-  //     "value",
-  //     (snapshot) => {
-  //       const channelsObj = snapshot.val();
-  //       const channels = Object.entries(channelsObj);
-  //       console.log(channels);
-  //       this.setState({ channelLength: channels.length, channels: channels });
-  //     },
-  //     (err) => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
+
+  componentDidMount() {
+    this.state.onChannelRef.on(
+      "child_added", //Used child_added not value because it will give only the child and not the whole value so its apt for munging lists
+      (snapshot) => {
+        //firebase returns an argument
+        const updatedChannel = [...this.state.channels];
+        updatedChannel.push(snapshot.val());
+        this.setState({ channels: updatedChannel });
+        console.log(this.state.channels);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
   // //For opening model
   addChannel = () => {
@@ -53,7 +54,8 @@ class Channels extends Component {
         //(with a child as channelId and subchild as set object)
         this.state.onChannelRef
           .child(channelId)
-          .set({
+          .update({
+            id: channelId,
             name: this.state.channelName,
             details: this.state.channelDescription,
             createdBy: {
@@ -76,14 +78,31 @@ class Channels extends Component {
     this.setState({ [e.target.name]: e.target.value });
     console.log(this.state);
   };
+  // channelClicked = (e, id) => {
+  //   console.log(id);
+  // };
   render() {
+    const allChannels = this.state.channels.map((channel) => {
+      return (
+        <div
+          key={channel.id}
+          // onClick={(e, id) => this.channelClicked(e, id)}
+        >
+          #{channel.name}
+        </div>
+      );
+    });
+
     return (
       <div>
         <div>
-          Channels({this.state.channelLength}){" "}
+          Channels({this.state.channels.length}){" "}
           <button onClick={this.addChannel}>+</button>
         </div>
-        <Channel channelRef={this.state.onChannelRef} />
+        {/* Will use this later now just fixing by using {allChannels} */}
+        {/* not using this because there is some problem with datafethcing and passing async data down the components */}
+        {/* <Channel channels={this.state.channels} /> */}
+        {allChannels}
         {this.state.showModal ? (
           <Modal
             changed={this.inputChangeHanlder}
