@@ -12,30 +12,42 @@ class Channels extends Component {
     channelDescription: "",
     onChannelRef: firebase.database().ref("channels"),
     channels: [],
+    firstLoad: true,
   };
 
   //for showing number of channels
 
   componentDidMount() {
+    this.loadChannels();
+  }
+  componentWillUnmount() {
+    //removing all the listeners
+    this.state.onChannelRef.off();
+  }
+  setFirstChannel = () => {
+    let channel = this.state.channels[0];
+    if (this.state.channels.length > 0 && this.state.firstLoad) {
+      this.props.setChannel(channel);
+    }
+    this.setState({ firstLoad: false });
+  };
+  loadChannels = () => {
     this.state.onChannelRef.on(
       "child_added", //Used child_added not value because it will give only the child and not the whole value so its apt for munging lists
       (snapshot) => {
         //firebase returns an argument
         const updatedChannel = [...this.state.channels];
         updatedChannel.push(snapshot.val());
-        this.setState({ channels: updatedChannel });
+        this.setState({ channels: updatedChannel }, () =>
+          this.setFirstChannel()
+        );
         // console.log(this.state.channels);
       },
       (err) => {
         console.log(err);
       }
     );
-  }
-  componentWillUnmount() {
-    //removing all the listeners
-    this.state.onChannelRef.off();
-  }
-
+  };
   // //For opening model
   addChannel = () => {
     this.setState({ showModal: true });
