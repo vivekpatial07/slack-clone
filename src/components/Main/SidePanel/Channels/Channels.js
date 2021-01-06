@@ -20,6 +20,7 @@ class Channels extends Component {
   componentDidMount() {
     this.loadChannels();
   }
+
   componentWillUnmount() {
     //removing all the listeners
     this.state.onChannelRef.off();

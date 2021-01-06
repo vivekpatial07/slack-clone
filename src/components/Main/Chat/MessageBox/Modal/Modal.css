@@ -1,0 +1,26 @@
+.Modal {
+  height: 100%;
+  width: 100%;
+  background-color: hotpink;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  margin: 0;
+  padding: 0;
+  z-index: 200;
+}
+.Form {
+  margin: auto;
+  padding: auto;
+  text-align: center;
+}
+.Input {
+  display: flex;
+  flex-flow: column;
+  padding: auto;
+  width: 70%;
+  height: 27px;
+
+  margin: 10px auto;
+}

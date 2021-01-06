@@ -4,11 +4,14 @@ import classes from "./MessageBox.css";
 import Message from "./Message/Message";
 import firebase from "../../../../firebase";
 import { setChannel } from "../../../../store/actions";
+import Modal from "./Modal/Modal";
 class MessageBox extends Component {
   state = {
+    showModal: false,
     messages: [],
     message: "",
     onMessageRef: firebase.database().ref("messages"),
+    onStorageRef: firebase.storage().ref("images"),
   };
   sendMessage = () => {
     // const message = this.state.message;
@@ -53,6 +56,15 @@ class MessageBox extends Component {
   //     );
   //   }
   // }
+  uploadMessage = () => {
+    console.log("uploading");
+
+    this.setState({ showModal: true });
+  };
+  modalClose = (e) => {
+    e.preventDefault();
+    this.setState({ showModal: false });
+  };
   render() {
     return (
       <div className={classes.MessageBox}>
@@ -68,8 +80,14 @@ class MessageBox extends Component {
         />
         <div>
           <button onClick={this.sendMessage}>Send</button>
-          <button>Upload</button>
+          <button onClick={this.uploadMessage}>Upload</button>
         </div>
+        {this.state.showModal ? (
+          <Modal
+            uploadImage={this.uploadMessage}
+            closeModal={this.modalClose}
+          />
+        ) : null}
       </div>
     );
   }
