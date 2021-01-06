@@ -11,7 +11,9 @@ class MessageBox extends Component {
     messages: [],
     message: "",
     onMessageRef: firebase.database().ref("messages"),
-    onStorageRef: firebase.storage().ref("images"),
+    onStorageRef: firebase.storage().ref("/users"),
+    file: null,
+    fileData: null,
   };
   sendMessage = () => {
     // const message = this.state.message;
@@ -56,14 +58,48 @@ class MessageBox extends Component {
   //     );
   //   }
   // }
+  imagechangeHandler = (e) => {
+    console.log(e.target.files[0]);
+    const file = e.target.files[0];
+    this.setState({ file: file });
+    // console.log(this.state);
+  };
   uploadMessage = () => {
-    console.log("uploading");
-
     this.setState({ showModal: true });
   };
   modalClose = (e) => {
     e.preventDefault();
     this.setState({ showModal: false });
+  };
+  uploadImage = (e) => {
+    e.preventDefault();
+    console.log("uploading");
+    //let file
+    // this.state.onStorageRef.child(`/images/${this.state.file.name}`).put();
+    const imageUpload = this.state.onStorageRef
+      .child(`/images/${this.state.file.name}`)
+      .put(this.state.file);
+    imageUpload.on(
+      "state_changed",
+      (snapshot) => {
+        console.log(snapshot);
+        console.log(this.state);
+      },
+      (err) => {
+        console.log(err);
+      }
+      // () => {
+      //   this.state.onStorageRef
+      //     .child(this.state.file.name)
+      //     .getDownloadURL()
+      //     .then((firebaseURL) => {
+      //       let file = this.state.file;
+      //       file.imgUrl = firebaseURL;
+      //       this.setState({ file: file });
+      //     });
+      // }
+    );
+    // .put().then(console.log('file uploaded));
   };
   render() {
     return (
@@ -84,7 +120,8 @@ class MessageBox extends Component {
         </div>
         {this.state.showModal ? (
           <Modal
-            uploadImage={this.uploadMessage}
+            changeHandler={this.imagechangeHandler}
+            uploadImage={this.uploadImage}
             closeModal={this.modalClose}
           />
         ) : null}
