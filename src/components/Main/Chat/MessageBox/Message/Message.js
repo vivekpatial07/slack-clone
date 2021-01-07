@@ -45,7 +45,11 @@ class Message extends Component {
       // console.log({ message });
       return (
         <div key={message.timestamp}>
-          {message.content}
+          {message.content ? (
+            message.content
+          ) : (
+            <img src={message.url} style={{ height: 70 }} alt=" file" />
+          )}
           {"       "}
           {i + 1}
         </div>

@@ -5,13 +5,16 @@ import Message from "./Message/Message";
 import firebase from "../../../../firebase";
 import { setChannel } from "../../../../store/actions";
 import Modal from "./Modal/Modal";
+import uuidv4 from "uuid/v4";
 class MessageBox extends Component {
   state = {
+    uploadTask: null,
+    uploadState: "",
     showModal: false,
     messages: [],
     message: "",
     onMessageRef: firebase.database().ref("messages"),
-    onStorageRef: firebase.storage().ref("/users"),
+    onStorageRef: firebase.storage(),
     file: null,
     fileData: null,
   };
@@ -74,10 +77,12 @@ class MessageBox extends Component {
   uploadImage = (e) => {
     e.preventDefault();
     console.log("uploading");
-    //let file
-    // this.state.onStorageRef.child(`/images/${this.state.file.name}`).put();
+    // this.setState({uploadTask:this.state.onStorageRef(filePath).put(this.state.file)
+
+    const filePath = `chat/public/${uuidv4()}.jpg`;
+    // })
     const imageUpload = this.state.onStorageRef
-      .child(`/images/${this.state.file.name}`)
+      .ref(filePath)
       .put(this.state.file);
     imageUpload.on(
       "state_changed",
@@ -87,19 +92,39 @@ class MessageBox extends Component {
       },
       (err) => {
         console.log(err);
+      },
+      () => {
+        //understanding part
+        //for getting url of the image uploaded
+        imageUpload.snapshot.ref.getDownloadURL().then((downloadUrl) => {
+          console.log(downloadUrl);
+          const file = {
+            ...this.state.file,
+            url: downloadUrl,
+          };
+          this.setState({ file }, () => {
+            const messageData = {
+              // timestamp: firebase.database().ServerValue.TIMESTAMP,
+              timestamp: Math.random() * 7777777,
+              url: file.url,
+              user: {
+                sender: this.props.currentUser.displayName,
+                avatar: this.props.currentUser.photoURL,
+                id: this.props.currentUser.uid,
+              },
+            };
+
+            this.state.onMessageRef
+              .child(this.props.currentChannel.id)
+              .push()
+              .set(messageData)
+              .then(() => {
+                //will clear up message box later
+              });
+          });
+        });
       }
-      // () => {
-      //   this.state.onStorageRef
-      //     .child(this.state.file.name)
-      //     .getDownloadURL()
-      //     .then((firebaseURL) => {
-      //       let file = this.state.file;
-      //       file.imgUrl = firebaseURL;
-      //       this.setState({ file: file });
-      //     });
-      // }
     );
-    // .put().then(console.log('file uploaded));
   };
   render() {
     return (
