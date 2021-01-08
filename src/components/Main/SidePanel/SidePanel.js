@@ -8,7 +8,7 @@ import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-
+import DirectMessage from "./Channels/DirectMessage/DirectMessage";
 class SidePanel extends Component {
   signOutHandler = () => {
     firebase
@@ -35,6 +35,7 @@ class SidePanel extends Component {
           display="flex"
           justifyContent="center"
         >
+          {/* need to restyle  */}
           <Avatar alt="avatar" src={this.props.avatar} />
           <Typography>{this.props.username}</Typography>
         </Box>
@@ -52,6 +53,9 @@ class SidePanel extends Component {
             <Typography>
               <Channels />
             </Typography>
+          </Box>
+          <Box>
+            <DirectMessage />
           </Box>
         </div>
       </div>
