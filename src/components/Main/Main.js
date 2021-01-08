@@ -4,7 +4,7 @@ import SidePanel from "./SidePanel/SidePanel";
 import classes from "./Main.css";
 function Main() {
   return (
-    <div className={classes.Main}>
+    <div container className={classes.Main}>
       <SidePanel />
       <Chat />
     </div>

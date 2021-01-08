@@ -1,4 +1,9 @@
 .Main {
-  display: inline;
+  display: inline-flex;
+  flex-direction: row;
   background-color: #eee;
+  padding: 2px;
+  margin: 2px;
+  justify-content: space-between;
+  align-items: stretch;
 }

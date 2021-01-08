@@ -6,6 +6,10 @@ import firebase from "../../../../firebase";
 import { setChannel } from "../../../../store/actions";
 import Modal from "./Modal/Modal";
 import uuidv4 from "uuid/v4";
+import { Button, TextField } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import SearchIcon from "@material-ui/icons/Search";
 class MessageBox extends Component {
   state = {
     uploadTask: null,
@@ -129,19 +133,67 @@ class MessageBox extends Component {
   render() {
     return (
       <div className={classes.MessageBox}>
-        <Message
-          messageRef={this.state.onMessageRef}
-          // currentChannel={this.props.currentChannel}
-        />
-        <input
-          type="text"
-          placeholder="Type Something"
-          name="message"
-          onChange={this.changeHandler}
-        />
         <div>
-          <button onClick={this.sendMessage}>Send</button>
-          <button onClick={this.uploadMessage}>Upload</button>
+          <TextField
+            fullWidth
+            style={{ width: "200px", margin: "10px" }}
+            type="text"
+            label="Search"
+            name="message"
+            id="outlined-size-small"
+            variant="outlined"
+            size="small"
+            // onChange={this.changeHandler}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
+        <div>
+          <Message
+            messageRef={this.state.onMessageRef}
+            // currentChannel={this.props.currentChannel}
+          />
+        </div>
+        <div className={classes.TextField}>
+          <TextField
+            fullWidth
+            style={{ width: "500px", margin: "10px" }}
+            type="text"
+            label="Type Message"
+            name="message"
+            id="outlined-size-small"
+            variant="outlined"
+            size="small"
+            onChange={this.changeHandler}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">
+                  <SendIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <div>
+            <Button
+              onClick={this.sendMessage}
+              variant="contained"
+              color="secondary"
+            >
+              Send
+            </Button>
+            <Button
+              onClick={this.uploadMessage}
+              variant="contained"
+              color="secondary"
+            >
+              Upload
+            </Button>
+          </div>
         </div>
         {this.state.showModal ? (
           <Modal

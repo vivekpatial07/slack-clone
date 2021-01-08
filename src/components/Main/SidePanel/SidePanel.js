@@ -3,6 +3,12 @@ import { connect } from "react-redux";
 import classes from "./SidePanel.css";
 import firebase from "../../../firebase";
 import Channels from "./Channels/Channels";
+import Button from "@material-ui/core/Button";
+import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
+import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+
 class SidePanel extends Component {
   signOutHandler = () => {
     firebase
@@ -17,14 +23,36 @@ class SidePanel extends Component {
     console.log(this.props.avatar);
     return (
       <div className={classes.SidePanel}>
-        <h2>Slack-Clone</h2>
+        <h2>
+          <CodeRoundedIcon />
+          {/* <Icon>CodeIcon</Icon> */}
+          <Typography>Slack-Clone</Typography>
+        </h2>
+        <Box
+          p={7}
+          mx="auto"
+          // display="block"
+          display="flex"
+          justifyContent="center"
+        >
+          <Avatar alt="avatar" src={this.props.avatar} />
+          <Typography>{this.props.username}</Typography>
+        </Box>
+
+        <Button
+          variant="contained"
+          onClick={this.signOutHandler}
+          color="primary"
+        >
+          Sign Out!
+        </Button>
         <div>
-          <img src={this.props.avatar} alt="avatar" />
-          <p>Welcome! {this.props.username}</p>
-        </div>
-        <button onClick={this.signOutHandler}>Sign Out!</button>
-        <div>
-          <Channels />
+          {/* change the typography from here to channels components */}
+          <Box p={7}>
+            <Typography>
+              <Channels />
+            </Typography>
+          </Box>
         </div>
       </div>
     );

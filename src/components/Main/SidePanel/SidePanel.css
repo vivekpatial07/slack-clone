@@ -1,10 +1,9 @@
 .SidePanel {
-  display: inline;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: orange;
+  background-color: #412722;
   height: 100%;
-  margin: auto;
-  width: 27%;
+  color: #eee;
+  /* height: 650px; */
+
+  left: 0;
+  position: fixed;
 }

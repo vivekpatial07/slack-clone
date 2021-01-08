@@ -1,0 +1,8 @@
+.Message {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  /* height: 1000px; */
+  /* padding: 5px; */
+}

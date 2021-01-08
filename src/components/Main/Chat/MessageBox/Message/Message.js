@@ -1,7 +1,9 @@
+import { Avatar, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import firebase from "../../../../../firebase";
 import { setChannel } from "../../../../../store/actions/index";
+import classes from "./Message.css";
 class Message extends Component {
   state = {
     key: null,
@@ -44,14 +46,17 @@ class Message extends Component {
     const showMessages = this.state.messages.map((message, i) => {
       // console.log({ message });
       return (
-        <div key={message.timestamp}>
+        <div key={message.timestamp} className={classes.Message}>
+          <Avatar src={message.user.avatar} />
+          <strong style={{ padding: "5px !important" }}>
+            {message.user.sender}
+          </strong>
+          -
           {message.content ? (
-            message.content
+            <Typography>{message.content}</Typography>
           ) : (
             <img src={message.url} style={{ height: 70 }} alt=" file" />
           )}
-          {"       "}
-          {i + 1}
         </div>
       );
     });
