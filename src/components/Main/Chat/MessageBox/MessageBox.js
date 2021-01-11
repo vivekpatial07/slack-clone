@@ -18,9 +18,15 @@ class MessageBox extends Component {
     messages: [],
     message: "",
     onMessageRef: firebase.database().ref("messages"),
+    onPrivateMessagesRef: firebase.database().ref("privateMessages"),
     onStorageRef: firebase.storage(),
     file: null,
     fileData: null,
+  };
+  getMessageRef = () => {
+    return this.props.isPrivate
+      ? this.state.onPrivateMessagesRef
+      : this.state.onMessageRef;
   };
   sendMessage = () => {
     // const message = this.state.message;
@@ -35,7 +41,8 @@ class MessageBox extends Component {
       },
     };
     // this.state.onMessageRef.push().key;
-    this.state.onMessageRef
+    const ref = this.getMessageRef();
+    ref
       .child(this.props.currentChannel.id)
       .push()
       .set(messageData)
@@ -78,12 +85,19 @@ class MessageBox extends Component {
     e.preventDefault();
     this.setState({ showModal: false });
   };
+  getPath = () => {
+    if (this.props.isPrivate) {
+      return `chat/private-${this.props.currentChannel.id}`;
+    } else {
+      return `chat/pulic`;
+    }
+  };
   uploadImage = (e) => {
     e.preventDefault();
     console.log("uploading");
     // this.setState({uploadTask:this.state.onStorageRef(filePath).put(this.state.file)
-
-    const filePath = `chat/public/${uuidv4()}.jpg`;
+    // const ref = this.getMessageRef();
+    const filePath = `${this.getPath()}/${uuidv4()}.jpg`;
     // })
     const imageUpload = this.state.onStorageRef
       .ref(filePath)
@@ -118,7 +132,7 @@ class MessageBox extends Component {
               },
             };
 
-            this.state.onMessageRef
+            this.getMessageRef()
               .child(this.props.currentChannel.id)
               .push()
               .set(messageData)
@@ -210,6 +224,7 @@ const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
     currentChannel: state.channel.currentChannel,
+    isPrivate: state.channel.isPrivate,
   };
 };
 export default connect(mapStateToProps, { setChannel })(MessageBox);

@@ -8,28 +8,23 @@ class Message extends Component {
   state = {
     key: null,
     messages: [],
+    onPrivateMessagesRef: firebase.database().ref("privateMessages"),
+
     onChannelRef: firebase.database().ref("channels"),
     onMessageRef: firebase.database().ref("messages"),
   };
-  // componentDidMount() {
-  //   setTimeout(this.displayMessages, 5000);
-  //   // this.displayMessages();
-  //   this.setState({ key: Math.random() });
-  // }
-  // componentDidUpdate() {
-  //   let count = 0;
-  //   if (count < 7) {
-  //     this.displayMessages();
-  //     count++;
-  //   }
-  // }
+
+  getMessageRef = () => {
+    return this.props.isPrivate
+      ? this.state.onPrivateMessagesRef
+      : this.state.onMessageRef;
+  };
   displayMessages = () => {
-    // this.props.setChannel();
     const messagesempty = [];
     this.setState({ messages: messagesempty });
-    console.log(this.state.messages);
-
-    this.state.onMessageRef.child(this.props.currentChannel.id).on(
+    // console.log(this.getMessageRef());
+    const ref = this.getMessageRef();
+    ref.child(this.props.currentChannel.id).on(
       "child_added",
       (snapshot) => {
         const updatedMessages = [...this.state.messages];
@@ -73,6 +68,7 @@ class Message extends Component {
 const mapStateToProps = (state) => {
   return {
     currentChannel: state.channel.currentChannel,
+    isPrivate: state.channel.isPrivate,
   };
 };
 export default connect(mapStateToProps, { setChannel })(Message);

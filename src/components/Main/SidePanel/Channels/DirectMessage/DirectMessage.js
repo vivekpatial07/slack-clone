@@ -4,6 +4,9 @@ import Box from "@material-ui/core/Box";
 import { connect } from "react-redux";
 import firebase from "firebase";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import { setChannel } from "../../../../../store/actions";
+import { setPrivateChannel } from "../../../../../store/actions";
+
 class DirectMessage extends Component {
   state = {
     users: [],
@@ -62,6 +65,19 @@ class DirectMessage extends Component {
     this.setState({ users: updatedUsers });
   };
   isUserOnline = (user) => user.status === "online";
+  changeChannel = (userClicked) => {
+    let channelId = this.getChannelId(userClicked.uid);
+    const channelData = {
+      id: channelId,
+      name: userClicked.name,
+    };
+    this.props.setChannel(channelData);
+    this.props.setPrivateChannel(true);
+  };
+  getChannelId = (id) => {
+    let currentUId = this.props.currentUser.uid;
+    return currentUId > id ? `${id}av${currentUId}` : `${currentUId}va${id}`;
+  };
   render() {
     return (
       <Box alignItems="center">
@@ -69,17 +85,23 @@ class DirectMessage extends Component {
         <br />
         DirectMessage{"  "}({this.state.users.length})
         <br />
-        {this.state.users.map((u) => {
-          return (
-            <p key={u.uid} style={{ color: "white", fontStyle: "italic" }}>
-              @{u.name}{" "}
-              <FiberManualRecordIcon
-                fontSize="small"
-                color={this.isUserOnline(u) ? "primary" : "secondary"}
-              />
-            </p>
-          );
-        })}
+        <ul style={{ listStyle: "none" }}>
+          {this.state.users.map((u) => {
+            return (
+              <li
+                key={u.uid}
+                onClick={() => this.changeChannel(u)}
+                style={{ color: "white", fontStyle: "italic" }}
+              >
+                @{u.name}
+                <FiberManualRecordIcon
+                  fontSize="small"
+                  color={this.isUserOnline(u) ? "primary" : "secondary"}
+                />
+              </li>
+            );
+          })}
+        </ul>
       </Box>
     );
   }
@@ -88,6 +110,9 @@ class DirectMessage extends Component {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
+    isPrivate: state.channel.isPrivate,
   };
 };
-export default connect(mapStateToProps)(DirectMessage);
+export default connect(mapStateToProps, { setChannel, setPrivateChannel })(
+  DirectMessage
+);

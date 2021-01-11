@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Modal from "./Modal/Modal";
 import firebase from "../../../../firebase";
 import { connect } from "react-redux";
+import { setPrivateChannel } from "../../../../store/actions";
 import { setChannel } from "../../../../store/actions";
 class Channels extends Component {
   state = {
@@ -101,6 +102,7 @@ class Channels extends Component {
     console.log(channel);
     //setting active class remaining
     this.props.setChannel(channel);
+    this.props.setPrivateChannel(false);
   };
   render() {
     const allChannels = this.state.channels.map((channel) => {
@@ -137,6 +139,9 @@ const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
     currentChannel: state.channel.currentChannel,
+    isPrivate: state.channel.isPrivate,
   };
 };
-export default connect(mapStateToProps, { setChannel })(Channels);
+export default connect(mapStateToProps, { setChannel, setPrivateChannel })(
+  Channels
+);
