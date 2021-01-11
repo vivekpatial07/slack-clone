@@ -3,6 +3,7 @@ import MessageIcon from "@material-ui/icons/Message";
 import Box from "@material-ui/core/Box";
 import { connect } from "react-redux";
 import firebase from "firebase";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 class DirectMessage extends Component {
   state = {
     users: [],
@@ -60,6 +61,7 @@ class DirectMessage extends Component {
     }, []);
     this.setState({ users: updatedUsers });
   };
+  isUserOnline = (user) => user.status === "online";
   render() {
     return (
       <Box alignItems="center">
@@ -69,8 +71,12 @@ class DirectMessage extends Component {
         <br />
         {this.state.users.map((u) => {
           return (
-            <p key={u.uid} style={{ color: "white" }}>
-              @{u.name}
+            <p key={u.uid} style={{ color: "white", fontStyle: "italic" }}>
+              @{u.name}{" "}
+              <FiberManualRecordIcon
+                fontSize="small"
+                color={this.isUserOnline(u) ? "primary" : "secondary"}
+              />
             </p>
           );
         })}
