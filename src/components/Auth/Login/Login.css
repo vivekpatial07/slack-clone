@@ -1,42 +1,67 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+body {
+  background: #de6262; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffb88c,
+    #de6262
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffb88c,
+    #de6262
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .Login {
   text-align: center;
 }
+h1 {
+  color: #eee8e6;
+}
 .Form {
+  background-color: #fff;
   text-align: center;
   height: 300px;
   border: 1px solid grey;
-  width: 50%;
+  width: 27%;
   padding: 10px;
   margin: auto;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
 }
+
 .Input {
   display: flex;
   margin: 10px auto;
   width: 70%;
-  height: 27px;
+  height: 10px !important;
   padding: 7px;
   border: 1px solid #eee;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 10px;
 }
 .Button {
+  margin-top: 7px;
   width: 60%;
   height: 27px;
-  background-color: orange;
+  background-color: #e66767;
   color: #fff;
   border-radius: 5px;
   border: none;
+  transition: 0.2s;
   font-weight: 700;
 }
 .Input:focus {
-  background-color: orange;
+  outline: none;
+  border: 2px solid #778beb;
 }
 
 .Input:hover {
-  border: 1px solid orange;
+  border: 1px solid #778beb;
+}
+.Button:hover {
+  transition-duration: 0.2s;
+
+  transform: scale(1.1, 1.1);
 }

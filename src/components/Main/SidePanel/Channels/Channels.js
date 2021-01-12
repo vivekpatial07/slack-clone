@@ -14,6 +14,9 @@ class Channels extends Component {
     onChannelRef: firebase.database().ref("channels"),
     channels: [],
     firstLoad: true,
+    channel: null,
+    onMessageRef: firebase.database().ref("messages"),
+    notifications: [],
   };
 
   //for showing number of channels
@@ -30,6 +33,7 @@ class Channels extends Component {
     let channel = this.state.channels[0];
     if (this.state.channels.length > 0 && this.state.firstLoad) {
       this.props.setChannel(channel);
+      this.setState({ channel: channel });
     }
     this.setState({ firstLoad: false });
   };
@@ -43,12 +47,48 @@ class Channels extends Component {
         this.setState({ channels: updatedChannel }, () =>
           this.setFirstChannel()
         );
+        this.addNotification(snapshot.key);
         // console.log(this.state.channels);
       },
       (err) => {
         console.log(err);
       }
     );
+  };
+
+  addNotification = (channelId) => {
+    this.state.onMessageRef.child(channelId).on("value", (snap) => {
+      if (this.state.channel) {
+        this.handleNotifications(
+          channelId,
+          this.state.channel.id,
+          this.state.notifications,
+          snap
+        );
+      }
+    });
+  };
+  handleNotifications = (channelId, currentChannelId, notifications, snap) => {
+    let lastTotal = 0;
+    let index = notifications.findIndex((notif) => notif.id === channelId);
+
+    if (index !== -1) {
+      if (channelId !== currentChannelId) {
+        lastTotal = notifications[index].total;
+        if (snap.numChildren() - lastTotal > 0) {
+          notifications[index].count = snap.numChildren() - lastTotal;
+        }
+      }
+      notifications[index].lastKnownTotal = snap.numChildren();
+    } else {
+      notifications.push({
+        id: channelId,
+        total: snap.numChildren(),
+        lastKnownTotal: snap.numChildren(),
+        count: 0,
+      });
+    }
+    this.setState({ notifications });
   };
   // //For opening model
   addChannel = () => {
@@ -99,16 +139,43 @@ class Channels extends Component {
   };
   //for selecting and setting current channel on global state
   channelClicked = (channel) => {
-    console.log(channel);
+    // console.log(channel);
     //setting active class remaining
+    this.clearNotification();
     this.props.setChannel(channel);
     this.props.setPrivateChannel(false);
+    this.setState({ channel });
+  };
+  clearNotification = () => {
+    let index = this.state.notifications.findIndex(
+      (notif) => notif.id === this.state.channel.id
+    );
+    if (index !== -1) {
+      let updatedNotification = [...this.state.notifications];
+      updatedNotification[index].total = this.state.notifications[
+        index
+      ].lastKnownTotal;
+      updatedNotification[index].count = 0;
+      this.setState({ notifications: updatedNotification });
+    }
+  };
+  getNotificationCount = (channel) => {
+    let count = 0;
+    this.state.notifications.forEach((notif) => {
+      if (notif.id === channel.id) {
+        count = notif.count;
+      }
+    });
+    if (count > 0) return count;
   };
   render() {
     const allChannels = this.state.channels.map((channel) => {
       return (
         <div key={channel.id} onClick={() => this.channelClicked(channel)}>
           #{channel.name}
+          {this.getNotificationCount(channel) && (
+            <p>{this.getNotificationCount(channel)}</p>
+          )}
         </div>
       );
     });

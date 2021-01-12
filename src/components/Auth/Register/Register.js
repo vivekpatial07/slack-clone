@@ -4,6 +4,8 @@ import classes from "./Register.css";
 import firebase from "../../../firebase";
 //for generating hash
 import md5 from "md5";
+import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
+
 class Register extends Component {
   state = {
     username: "",
@@ -122,10 +124,13 @@ class Register extends Component {
   render() {
     return (
       <div className={classes.Register}>
+        <h1>Slack-Clone</h1>
+        <CodeRoundedIcon fontSize="large" />
+
         {/* to show the validation error */}
         <div>{this.state.errors}</div>
-        <h1>Register</h1>
         <form onSubmit={this.submitHandler} className={classes.RegisterForm}>
+          <h2>Register</h2>
           <input
             name="username"
             onChange={this.changeHandler}

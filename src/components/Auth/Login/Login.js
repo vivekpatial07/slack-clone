@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import classes from "./Login.css";
 import firebase from "../../../firebase";
+import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
+
 class Login extends Component {
   state = {
     email: "",
@@ -51,8 +53,10 @@ class Login extends Component {
     return (
       <div className={classes.Login}>
         <div>{this.state.error}</div>
-        <h1>Login</h1>
+        <h1>Slack-Clone </h1>
+        <CodeRoundedIcon fontSize="large" />
         <form className={classes.Form} onSubmit={this.onSubmitHandler}>
+          <h2>Login</h2>
           <input
             type="text"
             placeholder="Your Mail"
@@ -67,7 +71,12 @@ class Login extends Component {
             name="password"
             onChange={this.changeHandler}
           />
-          <button className={classes.Button} disabled={this.state.loading}>
+          <button
+            color="primary"
+            variant="contained"
+            className={classes.Button}
+            disabled={this.state.loading}
+          >
             Login
           </button>
         </form>
