@@ -167,13 +167,13 @@ class MessageBox extends Component {
             }}
           />
         </div>
-        <div>
+        <div className={classes.Messages}>
           <Message
             messageRef={this.state.onMessageRef}
             // currentChannel={this.props.currentChannel}
           />
         </div>
-        <div className={classes.TextField}>
+        <div>
           <TextField
             fullWidth
             style={{ width: "500px", margin: "10px" }}

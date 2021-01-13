@@ -23,11 +23,11 @@ class Message extends Component {
     const messagesempty = [];
     this.setState({ messages: messagesempty });
     // console.log(this.getMessageRef());
+    const updatedMessages = [...this.state.messages];
     const ref = this.getMessageRef();
     ref.child(this.props.currentChannel.id).on(
       "child_added",
       (snapshot) => {
-        const updatedMessages = [...this.state.messages];
         updatedMessages.push(snapshot.val());
         console.log(this.state.messages);
         this.setState({ messages: updatedMessages });
@@ -43,14 +43,11 @@ class Message extends Component {
       return (
         <div key={message.timestamp} className={classes.Message}>
           <Avatar src={message.user.avatar} />
-          <strong style={{ padding: "5px !important" }}>
-            {message.user.sender}
-          </strong>
-          -
+          <strong>{message.user.sender}</strong>-
           {message.content ? (
             <Typography>{message.content}</Typography>
           ) : (
-            <img src={message.url} style={{ height: 70 }} alt=" file" />
+            <img src={message.url} style={{ height: 270 }} alt=" file" />
           )}
         </div>
       );
