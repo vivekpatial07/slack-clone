@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { setUser, removeUser } from "./store/actions";
 import firebase from "./firebase";
 import Spinner from "./components/UI/Spinner/Spinner";
-//just testing git
+//just testing git again
 class App extends Component {
   componentDidMount() {
     //for checking if user is signed in and do things if signed in!
