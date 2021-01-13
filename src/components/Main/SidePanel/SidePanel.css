@@ -1,9 +1,6 @@
 .SidePanel {
-  background-color: #412722;
-  height: 100%;
+  /* will add gredient colors soon */
+  background-color: #e15f41;
   color: #eee;
-  /* height: 650px; */
-
-  left: 0;
-  position: fixed;
+  flex: 0.7;
 }

@@ -43,7 +43,7 @@ class SidePanel extends Component {
         <Button
           variant="contained"
           onClick={this.signOutHandler}
-          color="primary"
+          color="secondary"
         >
           Sign Out!
         </Button>
