@@ -21,7 +21,8 @@ class App extends Component {
         //Dispatching Action
         this.props.setUser(user);
       } else {
-        // this.props.history.push("/login");
+        //not working
+        this.props.history.push("/login");
         this.props.removeUser();
       }
     });

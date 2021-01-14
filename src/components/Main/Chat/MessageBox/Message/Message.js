@@ -6,7 +6,6 @@ import { setChannel } from "../../../../../store/actions/index";
 import classes from "./Message.css";
 class Message extends Component {
   state = {
-    key: null,
     messages: [],
     onPrivateMessagesRef: firebase.database().ref("privateMessages"),
 
@@ -39,7 +38,6 @@ class Message extends Component {
   };
   render() {
     const showMessages = this.state.messages.map((message, i) => {
-      // console.log({ message });
       return (
         <div key={message.timestamp} className={classes.Message}>
           <Avatar src={message.user.avatar} />

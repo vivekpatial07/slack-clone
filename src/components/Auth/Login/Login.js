@@ -1,8 +1,11 @@
+//error handling styling as well as some logic remaining
+//active css class border none remainig
+
 import React, { Component } from "react";
 import classes from "./Login.css";
 import firebase from "../../../firebase";
 import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
-
+import { Link } from "react-router-dom";
 class Login extends Component {
   state = {
     email: "",
@@ -17,7 +20,6 @@ class Login extends Component {
     let updatedState = { ...this.state };
     updatedState[name] = val;
     this.setState(updatedState);
-    console.log(updatedState);
     ////////////////////////////////////
     //        Another Way
     // this.setState({ state: updatedState });
@@ -29,21 +31,20 @@ class Login extends Component {
     e.preventDefault();
     if (this.isFormValid(this.state)) {
       if (!this.state.loading) {
-        console.log(this.state);
         this.setState({ loading: true });
         //For signing up the user with email and password via firebase
         firebase
           .auth()
           .signInWithEmailAndPassword(this.state.email, this.state.password)
           .then((user) => {
-            console.log(user);
             this.setState({ loading: false });
           })
           .catch((err) => {
-            console.log(err);
             this.setState({ error: err.message, loading: false });
           });
       }
+    } else {
+      this.setState({ error: "Please Try Again" });
     }
   };
 
@@ -80,6 +81,14 @@ class Login extends Component {
             Login
           </button>
         </form>
+        <div className={classes.LoginCard}>
+          <div>
+            New User?
+            <Link to="/register">
+              <button className={classes.Button}>Register</button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

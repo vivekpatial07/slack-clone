@@ -1,10 +1,13 @@
+//error handling styling as well as some logic remaining
+//active css class border none remainig
+
 import React, { Component } from "react";
 import classes from "./Register.css";
-// for authentication
 import firebase from "../../../firebase";
+import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
+import { Link } from "react-router-dom";
 //for generating hash
 import md5 from "md5";
-import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 
 class Register extends Component {
   state = {
@@ -19,9 +22,10 @@ class Register extends Component {
   };
   //for controlled component(input)
   changeHandler = (e) => {
-    const updatedState = { ...this.state };
-    updatedState[e.target.name] = e.target.value;
-    this.setState(updatedState);
+    // const updatedState = { ...this.state };
+    // updatedState[e.target.name] = e.target.value;
+    // this.setState(updatedState);
+    this.setState({ [e.target.name]: e.target.value });
   };
   //for form submission
   submitHandler = (e) => {
@@ -112,7 +116,6 @@ class Register extends Component {
       let updatedErrors = [error];
       if (updatedErrors.includes(error)) {
         updatedErrors.concat(error);
-        console.log("di");
       }
       this.setState({ errors: updatedErrors });
       console.log(this.state.errors);
@@ -124,14 +127,15 @@ class Register extends Component {
   render() {
     return (
       <div className={classes.Register}>
+        {/* to show the validation error */}
+        <div>{this.state.errors}</div>
         <h1>Slack-Clone</h1>
         <CodeRoundedIcon fontSize="large" />
 
-        {/* to show the validation error */}
-        <div>{this.state.errors}</div>
         <form onSubmit={this.submitHandler} className={classes.RegisterForm}>
           <h2>Register</h2>
           <input
+            value={this.state.username}
             name="username"
             onChange={this.changeHandler}
             type="text"
@@ -139,6 +143,7 @@ class Register extends Component {
             className={classes.Input}
           />
           <input
+            value={this.state.email}
             name="email"
             onChange={this.changeHandler}
             type="email"
@@ -146,6 +151,7 @@ class Register extends Component {
             className={classes.Input}
           />
           <input
+            value={this.state.password}
             name="password"
             onChange={this.changeHandler}
             type="password"
@@ -153,6 +159,7 @@ class Register extends Component {
             className={classes.Input}
           />
           <input
+            value={this.state.passwordConfirm}
             name="passwordConfirm"
             onChange={this.changeHandler}
             type="password"
@@ -164,6 +171,14 @@ class Register extends Component {
             Register
           </button>
         </form>
+        <div className={classes.RegisterCard}>
+          <div>
+            Already a User?
+            <Link to="/login">
+              <button className={classes.Button}>Login</button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
