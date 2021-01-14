@@ -4,3 +4,8 @@
   margin: 2px;
   background-color: #eee;
 }
+.Small {
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+}

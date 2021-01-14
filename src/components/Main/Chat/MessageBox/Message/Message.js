@@ -8,7 +8,7 @@ class Message extends Component {
   state = {
     messages: [],
     onPrivateMessagesRef: firebase.database().ref("privateMessages"),
-
+    isLoading: true,
     onChannelRef: firebase.database().ref("channels"),
     onMessageRef: firebase.database().ref("messages"),
   };
@@ -18,6 +18,23 @@ class Message extends Component {
       ? this.state.onPrivateMessagesRef
       : this.state.onMessageRef;
   };
+  componentDidMount() {
+    setTimeout(this.displayMessages, 2700);
+    // this.setState({ isLoading: false });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentChannel !== this.props.currentChannel) {
+      setTimeout(this.displayMessages, 700);
+      // this.displayMessages;
+    }
+    // this.setState({ isLoading: false });
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.currentChannel !== nextProps.currentChannel ||
+      this.state !== nextState
+    );
+  }
   displayMessages = () => {
     const messagesempty = [];
     this.setState({ messages: messagesempty });
@@ -28,8 +45,9 @@ class Message extends Component {
       "child_added",
       (snapshot) => {
         updatedMessages.push(snapshot.val());
-        console.log(this.state.messages);
-        this.setState({ messages: updatedMessages });
+        this.setState({ messages: updatedMessages, isLoading: true }, () => {
+          console.log(this.state.messages);
+        });
       },
       (err) => {
         console.log(err);
@@ -40,10 +58,13 @@ class Message extends Component {
     const showMessages = this.state.messages.map((message, i) => {
       return (
         <div key={message.timestamp} className={classes.Message}>
-          <Avatar src={message.user.avatar} />
-          <strong>{message.user.sender}</strong>-
+          <Avatar
+            src={message.user.avatar}
+            style={{ height: "27px", width: "27px", borderRadius: "27px" }}
+          />
+          <Typography variant="subtitle2">{message.user.sender}</Typography>-
           {message.content ? (
-            <Typography>{message.content}</Typography>
+            <Typography variant="body1">{message.content}</Typography>
           ) : (
             <img src={message.url} style={{ height: 270 }} alt=" file" />
           )}
@@ -52,9 +73,7 @@ class Message extends Component {
     });
     return (
       <div>
-        <button onClick={() => this.displayMessages()}>Display Message</button>
-
-        {showMessages}
+        {!this.state.isLoading ? <p>loading...</p> : showMessages}
         {/* <div>{this.state.messages.length > 0 ? showMessages : null}</div> */}
       </div>
     );
