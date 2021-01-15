@@ -174,6 +174,17 @@ class Channels extends Component {
         <div key={channel.id} onClick={() => this.channelClicked(channel)}>
           #{channel.name}
           {this.getNotificationCount(channel) && (
+            <div
+              style={{
+                height: "50px",
+                borderRadius: "27px",
+                backgroundColor: "red",
+              }}
+            >
+              {this.getNotificationCount(channel)}
+            </div>
+          )}
+          {this.getNotificationCount(channel) && (
             <p>{this.getNotificationCount(channel)}</p>
           )}
         </div>
