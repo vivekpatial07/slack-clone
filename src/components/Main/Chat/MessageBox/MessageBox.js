@@ -154,7 +154,6 @@ class MessageBox extends Component {
             type="text"
             label="Search"
             name="message"
-            id="outlined-size-small"
             variant="outlined"
             size="small"
             // onChange={this.changeHandler}
@@ -180,7 +179,6 @@ class MessageBox extends Component {
             type="text"
             label="Type Message"
             name="message"
-            id="outlined-size-small"
             variant="outlined"
             size="small"
             onChange={this.changeHandler}

@@ -50,9 +50,7 @@ class SidePanel extends Component {
         <div>
           {/* change the typography from here to channels components */}
           <Box p={7}>
-            <Typography>
-              <Channels />
-            </Typography>
+            <Channels />
           </Box>
           <Box>
             <DirectMessage />

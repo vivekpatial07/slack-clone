@@ -19,12 +19,15 @@ class Message extends Component {
       : this.state.onMessageRef;
   };
   componentDidMount() {
-    setTimeout(this.displayMessages, 2700);
+    this.displayMessages();
+    // setTimeout(this.displayMessages, 2700);
     // this.setState({ isLoading: false });
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentChannel !== this.props.currentChannel) {
-      setTimeout(this.displayMessages, 700);
+      this.displayMessages();
+
+      // setTimeout(this.displayMessages, 700);
       // this.displayMessages;
     }
     // this.setState({ isLoading: false });
@@ -39,20 +42,23 @@ class Message extends Component {
     const messagesempty = [];
     this.setState({ messages: messagesempty });
     // console.log(this.getMessageRef());
-    const updatedMessages = [...this.state.messages];
-    const ref = this.getMessageRef();
-    ref.child(this.props.currentChannel.id).on(
-      "child_added",
-      (snapshot) => {
-        updatedMessages.push(snapshot.val());
-        this.setState({ messages: updatedMessages, isLoading: true }, () => {
-          console.log(this.state.messages);
-        });
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    if (this.props.currentChannel) {
+      // const updatedMessages = [...this.state.messages];
+      const updatedMessages = [];
+      const ref = this.getMessageRef();
+      ref.child(this.props.currentChannel.id).on(
+        "child_added",
+        (snapshot) => {
+          updatedMessages.push(snapshot.val());
+          this.setState({ messages: updatedMessages, isLoading: true }, () => {
+            console.log(this.state.messages);
+          });
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
   };
   render() {
     const showMessages = this.state.messages.map((message, i) => {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MessageIcon from "@material-ui/icons/Message";
 import Box from "@material-ui/core/Box";
 import { connect } from "react-redux";
-import firebase from "firebase";
+import firebase from "../../../../../firebase";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { setChannel } from "../../../../../store/actions";
 import { setPrivateChannel } from "../../../../../store/actions";

@@ -5,7 +5,7 @@ import classes from "./Main.css";
 import MetaPanel from "./MetaPanel/MetaPanel";
 function Main() {
   return (
-    <div container className={classes.Main}>
+    <div className={classes.Main}>
       <SidePanel />
       <Chat />
       <MetaPanel />
