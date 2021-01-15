@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+//might delete later
 //  import Channel from "./Channel/Channel";
+
 import Modal from "./Modal/Modal";
 import firebase from "../../../../firebase";
 import { connect } from "react-redux";
