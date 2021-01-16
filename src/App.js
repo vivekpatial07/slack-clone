@@ -17,9 +17,9 @@ class App extends Component {
       if (user) {
         // url loading but page not loading
         // will fix the issue later
+        this.props.setUser(user);
         this.props.history.push("/");
         //Dispatching Action
-        this.props.setUser(user);
       } else {
         //not working
         this.props.history.push("/login");
@@ -51,6 +51,9 @@ const mapStateToProps = (state) => {
     currentUser: state.user.currentUser,
   };
 };
-export default connect(mapStateToProps, { setUser, removeUser })(
-  withRouter(App)
+export default withRouter(
+  connect(mapStateToProps, { setUser, removeUser })(App)
 );
+// export default connect(mapStateToProps, { setUser, removeUser })(
+//   withRouter(App)
+// );
