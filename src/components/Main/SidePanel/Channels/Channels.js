@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 //might delete later
 //  import Channel from "./Channel/Channel";
-
+import AddIcon from "@material-ui/icons/Add";
+import classes from "./Channels.css";
 import Modal from "./Modal/Modal";
 import firebase from "../../../../firebase";
 import { connect } from "react-redux";
@@ -173,7 +174,11 @@ class Channels extends Component {
   render() {
     const allChannels = this.state.channels.map((channel) => {
       return (
-        <div key={channel.id} onClick={() => this.channelClicked(channel)}>
+        <div
+          className={classes.Channel}
+          key={channel.id}
+          onClick={() => this.channelClicked(channel)}
+        >
           #{channel.name}
           {this.getNotificationCount(channel) && (
             <div
@@ -195,9 +200,16 @@ class Channels extends Component {
 
     return (
       <div>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            padding: "2px",
+            margin: "7px",
+            justifyContent: "space-around",
+          }}
+        >
           Channels({this.state.channels.length}){" "}
-          <button onClick={this.addChannel}>+</button>
+          <AddIcon onClick={this.addChannel} fontSize="small" />
         </div>
         {/* Will use this later now just fixing by using {allChannels} */}
         {/* not using this because there is some problem with datafethcing and passing async data down the components */}
