@@ -76,7 +76,7 @@ class DirectMessage extends Component {
   };
   getChannelId = (id) => {
     let currentUId = this.props.currentUser.uid;
-    return currentUId > id ? `${id}av${currentUId}` : `${currentUId}va${id}`;
+    return currentUId > id ? `${id}av${currentUId}` : `${currentUId}av${id}`;
   };
   render() {
     return (

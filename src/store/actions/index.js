@@ -33,3 +33,11 @@ export const setPrivateChannel = (isPrivate) => {
     },
   };
 };
+export const starChannel = (isStarred) => {
+  return {
+    type: actionTypes.STAR_CHANNEL,
+    payload: {
+      isStarred,
+    },
+  };
+};

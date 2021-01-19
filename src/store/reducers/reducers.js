@@ -27,6 +27,7 @@ const userReducer = (state = initalUserState, action) => {
 const initialChannelState = {
   currentChannel: null,
   isPrivate: false,
+  isStarred: false,
 };
 const channelReducer = (state = initialChannelState, action) => {
   switch (action.type) {
@@ -39,6 +40,11 @@ const channelReducer = (state = initialChannelState, action) => {
       return {
         ...state,
         isPrivate: action.payload.isPrivate,
+      };
+    case actionTypes.STAR_CHANNEL:
+      return {
+        ...state,
+        isStarred: action.payload.isStarred,
       };
     default:
       return state;

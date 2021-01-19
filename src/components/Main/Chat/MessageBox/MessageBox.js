@@ -3,13 +3,16 @@ import { connect } from "react-redux";
 import classes from "./MessageBox.css";
 import Message from "./Message/Message";
 import firebase from "../../../../firebase";
-import { setChannel } from "../../../../store/actions";
+import { setChannel, starChannel } from "../../../../store/actions";
 import Modal from "./Modal/Modal";
 import uuidv4 from "uuid/v4";
 import { Button, TextField } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
+//for star marking
+import StarOutlineOutlinedIcon from "@material-ui/icons/StarOutlineOutlined";
+import StarIcon from "@material-ui/icons/Star";
 class MessageBox extends Component {
   state = {
     uploadTask: null,
@@ -20,8 +23,10 @@ class MessageBox extends Component {
     onMessageRef: firebase.database().ref("messages"),
     onPrivateMessagesRef: firebase.database().ref("privateMessages"),
     onStorageRef: firebase.storage(),
+    userRef: firebase.database().ref("users"),
     file: null,
     fileData: null,
+    isStarred: false,
   };
   getMessageRef = () => {
     return this.props.isPrivate
@@ -54,24 +59,46 @@ class MessageBox extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // componentDidMount() {
-  //   // setChannel(this.props.currentChannel);
+  componentDidMount() {
+    if (this.props.currentUser && this.props.currentChannel) {
+      this.addUserStars(
+        this.props.currentChannel.id,
+        this.props.currentUser.uid
+      );
+      alert(`handler`);
+    }
+  }
 
-  //   if (this.props.currentChannel) {
-  //     this.state.onMessageRef.child(this.props.currentChannel.id).on(
-  //       "child_added",
-  //       (snapshot) => {
-  //         const updatedMessages = [...this.state.messages];
-  //         updatedMessages.push(snapshot.val());
-  //         console.log(updatedMessages);
-  //         this.setState({ messages: updatedMessages });
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //       }
-  //     );
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentChannel !== this.props.currentChannel) {
+      this.addUserStars(
+        this.props.currentChannel.id,
+        this.props.currentUser.uid
+      );
+    }
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.currentChannel !== nextProps.currentChannel ||
+      this.state !== nextState
+    );
+  }
+  addUserStars = (channelId, userId) => {
+    this.state.userRef
+      .child(userId)
+      .child("starred")
+      .once("value")
+      .then((data) => {
+        if (data.val() !== null) {
+          const channelIds = Object.keys(data.val());
+          const prevStarred = channelIds.includes(channelId);
+          console.log(prevStarred);
+          console.log(channelIds);
+          this.setState({ isStarred: prevStarred });
+        }
+      });
+  };
+
   imagechangeHandler = (e) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
@@ -144,13 +171,65 @@ class MessageBox extends Component {
       }
     );
   };
+  starClicked = () => {
+    this.setState(
+      (prevState) => ({
+        ...prevState,
+        isStarred: !prevState.isStarred,
+      }),
+      () => {
+        this.starChannel();
+      }
+    );
+  };
+  starChannel = () => {
+    if (this.state.isStarred) {
+      this.state.userRef.child(`${this.props.currentUser.uid}/starred`).update({
+        [this.props.currentChannel.id]: {
+          name: this.props.currentChannel.name,
+          details: this.props.currentChannel.details,
+          createdBy: {
+            name: this.props.currentChannel.createdBy.username,
+            avatar: this.props.currentChannel.createdBy.avatar,
+          },
+        },
+      });
+    } else {
+      this.state.userRef
+        .child(`${this.props.currentUser.uid}/starred`)
+        .child(this.props.currentChannel.id)
+        .remove((err) => {
+          console.log(err);
+        });
+    }
+  };
   render() {
     return (
       <div className={classes.MessageBox}>
-        <div>
+        <div className={classes.Header}>
+          {this.props.currentChannel ? (
+            <h2 style={{ verticalAlign: "middle", marginRight: "auto" }}>
+              {this.props.currentChannel.name}
+              {this.state.isStarred ? (
+                <StarIcon
+                  onClick={this.starClicked}
+                  style={{ verticalAlign: "middle" }}
+                />
+              ) : (
+                <StarOutlineOutlinedIcon
+                  style={{ verticalAlign: "middle" }}
+                  onClick={this.starClicked}
+                />
+              )}
+            </h2>
+          ) : (
+            <h2>Loading...</h2>
+          )}
+
           <TextField
+            // onChange={}
             fullWidth
-            style={{ width: "200px", margin: "10px" }}
+            style={{ width: "200px", marginLeft: "auto" }}
             type="text"
             label="Search"
             name="message"
@@ -223,6 +302,9 @@ const mapStateToProps = (state) => {
     currentUser: state.user.currentUser,
     currentChannel: state.channel.currentChannel,
     isPrivate: state.channel.isPrivate,
+    isStarred: state.channel.isStarred,
   };
 };
-export default connect(mapStateToProps, { setChannel })(MessageBox);
+export default connect(mapStateToProps, { setChannel, starChannel })(
+  MessageBox
+);

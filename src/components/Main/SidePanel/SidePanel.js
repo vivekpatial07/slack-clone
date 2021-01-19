@@ -8,6 +8,7 @@ import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import DirectMessage from "./Channels/DirectMessage/DirectMessage";
+import Starred from "./Starred/Starred";
 class SidePanel extends Component {
   signOutHandler = () => {
     firebase
@@ -59,7 +60,10 @@ class SidePanel extends Component {
         </Button>
         <div>
           {/* change the typography from here to channels components */}
-          <Box p={7}>
+          <Box>
+            <Starred />
+          </Box>
+          <Box>
             <Channels />
           </Box>
           <Box>
