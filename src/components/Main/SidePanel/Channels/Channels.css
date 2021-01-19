@@ -1,0 +1,8 @@
+.Channel:hover {
+  background-color: rgba(230, 118, 93, 0.2);
+  cursor: pointer;
+}
+.Channel:active {
+  background-color: rgba(230, 118, 93, 0.2);
+  font-weight: 700;
+}
