@@ -50,9 +50,10 @@ class Message extends Component {
         "child_added",
         (snapshot) => {
           updatedMessages.push(snapshot.val());
-          this.setState({ messages: updatedMessages, isLoading: true }, () => {
-            console.log(this.state.messages);
-          });
+          this.setState(
+            { messages: updatedMessages, isLoading: true },
+            () => {}
+          );
         },
         (err) => {
           console.log(err);

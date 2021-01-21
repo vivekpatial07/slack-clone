@@ -59,15 +59,14 @@ class MessageBox extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  componentDidMount() {
-    if (this.props.currentUser && this.props.currentChannel) {
-      this.addUserStars(
-        this.props.currentChannel.id,
-        this.props.currentUser.uid
-      );
-      alert(`handler`);
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.currentUser && this.props.currentChannel) {
+  //     this.addUserStars(
+  //       this.props.currentChannel.id,
+  //       this.props.currentUser.uid
+  //     );
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentChannel !== this.props.currentChannel) {
@@ -92,8 +91,6 @@ class MessageBox extends Component {
         if (data.val() !== null) {
           const channelIds = Object.keys(data.val());
           const prevStarred = channelIds.includes(channelId);
-          console.log(prevStarred);
-          console.log(channelIds);
           this.setState({ isStarred: prevStarred });
         }
       });
