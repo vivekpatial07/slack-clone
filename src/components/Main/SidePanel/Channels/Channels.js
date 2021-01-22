@@ -8,6 +8,7 @@ import firebase from "../../../../firebase";
 import { connect } from "react-redux";
 import { setPrivateChannel } from "../../../../store/actions";
 import { setChannel } from "../../../../store/actions";
+import Spinner from "../../../UI/Spinner/Spinner";
 class Channels extends Component {
   state = {
     //soon will change this state management to redux state mgmnt.
@@ -200,17 +201,22 @@ class Channels extends Component {
 
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            padding: "2px",
-            margin: "7px",
-            justifyContent: "space-around",
-          }}
-        >
-          Channels({this.state.channels.length}){" "}
-          <AddIcon onClick={this.addChannel} fontSize="small" />
-        </div>
+        {this.state.firstLoad ? (
+          <Spinner style={{ fontSize: "27px !important", color: "white" }} />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              padding: "2px",
+              margin: "7px",
+              justifyContent: "space-around",
+            }}
+          >
+            Channels({this.state.channels.length}){" "}
+            <AddIcon onClick={this.addChannel} fontSize="small" />
+          </div>
+        )}
+
         {/* Will use this later now just fixing by using {allChannels} */}
         {/* not using this because there is some problem with datafethcing and passing async data down the components */}
         {/* <Channel channels={this.state.channels} /> */}

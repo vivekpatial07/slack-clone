@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import firebase from "../../../../../firebase";
 import { setChannel } from "../../../../../store/actions/index";
+import Spinner from "../../../../UI/Spinner/Spinner";
 import classes from "./Message.css";
 class Message extends Component {
   state = {
@@ -51,7 +52,7 @@ class Message extends Component {
         (snapshot) => {
           updatedMessages.push(snapshot.val());
           this.setState(
-            { messages: updatedMessages, isLoading: true },
+            { messages: updatedMessages, isLoading: false },
             () => {}
           );
         },
@@ -80,7 +81,7 @@ class Message extends Component {
     });
     return (
       <div>
-        {!this.state.isLoading ? <p>loading...</p> : showMessages}
+        {this.state.isLoading ? <Spinner /> : showMessages}
         {/* <div>{this.state.messages.length > 0 ? showMessages : null}</div> */}
       </div>
     );
