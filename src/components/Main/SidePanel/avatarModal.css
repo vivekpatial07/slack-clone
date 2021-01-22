@@ -1,0 +1,30 @@
+.Modal {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  margin: 0;
+  padding: 0;
+  z-index: 200;
+}
+.Form {
+  margin: auto;
+  padding: auto;
+  text-align: center;
+  width: 27%;
+}
+.Input {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px auto;
+  border-radius: 5px;
+  width: 70%;
+  border: none;
+  height: 20px;
+  padding: 7px;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  background-color: #eee;
+}

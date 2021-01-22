@@ -9,7 +9,10 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import DirectMessage from "./Channels/DirectMessage/DirectMessage";
 import Starred from "./Starred/Starred";
+import AvatarModal from "./avatarModal";
+
 class SidePanel extends Component {
+  state = { showModal: false, file: null };
   signOutHandler = () => {
     firebase
       .auth()
@@ -19,13 +22,22 @@ class SidePanel extends Component {
       })
       .catch((err) => console.log(err));
   };
+  showModal = () => {
+    console.log(`clicked`);
+    this.setState({ showModal: true });
+  };
+  uploadAvatar = () => {};
+  changeHandler = (e) => {
+    const file = e.target.files[0];
+    this.setState({ file: file }, () => {
+      console.log(this.state.file);
+    });
+  };
   render() {
-    console.log(this.props.avatar);
     return (
       <div className={classes.SidePanel}>
         <h2>
           <CodeRoundedIcon />
-          {/* <Icon>CodeIcon</Icon> */}
           <Typography>Slack-Clone</Typography>
         </h2>
         <div
@@ -49,6 +61,14 @@ class SidePanel extends Component {
           />
           <Typography>{this.props.username}</Typography>
         </div>
+        <Button
+          size="small"
+          variant="contained"
+          onClick={this.showModal}
+          color="secondary"
+        >
+          Change Avatar
+        </Button>
 
         <Button
           size="small"
@@ -70,6 +90,15 @@ class SidePanel extends Component {
             <DirectMessage />
           </Box>
         </div>
+        {this.state.showModal ? (
+          <AvatarModal
+            closeModal={() => {
+              this.setState({ showModal: false });
+            }}
+            uploadAvatar={this.uploadAvatar}
+            changeHandler={this.changeHandler}
+          />
+        ) : null}
       </div>
     );
   }
