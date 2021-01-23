@@ -2,7 +2,7 @@
   display: flex;
   padding: 7px;
   margin: 2px;
-  background-color: #eee;
+  /* background-color: #eee; */
 }
 .Small {
   height: 30px;
