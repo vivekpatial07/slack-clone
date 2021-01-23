@@ -8,7 +8,6 @@ function Main() {
     <div className={classes.Main}>
       <SidePanel />
       <Chat />
-      <MetaPanel />
     </div>
   );
 }

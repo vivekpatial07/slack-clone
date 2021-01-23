@@ -1,7 +1,7 @@
 .MessageBox {
   margin: auto;
   padding: auto;
-  flex: 5;
+  flex: 10;
 }
 .Messages {
   border-bottom: 2px outset rgba(10, 10, 0, 0.27);
