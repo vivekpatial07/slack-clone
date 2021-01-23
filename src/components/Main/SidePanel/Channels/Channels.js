@@ -181,7 +181,8 @@ class Channels extends Component {
           key={channel.id}
           onClick={() => this.channelClicked(channel)}
         >
-          #{channel.name}
+          #{"              "}
+          {channel.name}
           {this.getNotificationCount(channel) && (
             <div
               style={{
@@ -205,22 +206,29 @@ class Channels extends Component {
         {this.state.firstLoad ? (
           <Spinner />
         ) : (
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              padding: "2px",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <div
               style={{
                 display: "flex",
                 padding: "2px",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
               }}
             >
               <ListIcon />
               Channels({this.state.channels.length}){" "}
-              <AddIcon onClick={this.addChannel} fontSize="small" />
             </div>
-            {allChannels}
+            <AddIcon onClick={this.addChannel} fontSize="small" />
           </div>
         )}
+        {allChannels}
         {this.state.showModal ? (
           <Modal
             changed={this.inputChangeHanlder}

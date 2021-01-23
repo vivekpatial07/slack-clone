@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import firebase from "../../../../firebase";
+import classes from "./Starred.css";
+import StarsIcon from "@material-ui/icons/Stars";
 class Starred extends Component {
   state = {
     userRef: firebase.database().ref("users"),
@@ -61,16 +63,26 @@ class Starred extends Component {
   render() {
     return (
       <div style={{ margin: "27px" }}>
-        Starred{"      "}({this.state.starredChannels.length})
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <StarsIcon />
+          Starred{"      "}({this.state.starredChannels.length})
+        </div>
         <div>
           {this.state.starredChannels.map((channel) => {
             return (
-              <li
+              <div
                 key={channel.id + Math.random() * 7}
                 style={{ listStyle: "none" }}
+                className={classes.Channel}
               >
-                {channel.name}
-              </li>
+                #{"              "} {channel.name}
+              </div>
             );
           })}
         </div>

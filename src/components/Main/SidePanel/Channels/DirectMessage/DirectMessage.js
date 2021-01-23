@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import MessageIcon from "@material-ui/icons/Message";
-import Box from "@material-ui/core/Box";
 import { connect } from "react-redux";
 import firebase from "../../../../../firebase";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { setChannel } from "../../../../../store/actions";
 import { setPrivateChannel } from "../../../../../store/actions";
-
+import classes from "./DirectMessage.css";
 class DirectMessage extends Component {
   state = {
     users: [],
@@ -81,7 +80,7 @@ class DirectMessage extends Component {
   render() {
     return (
       <div style={{ margin: "27px" }}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <MessageIcon />
           DirectMessage{"  "}({this.state.users.length})
         </div>
@@ -91,7 +90,7 @@ class DirectMessage extends Component {
               <div
                 key={u.uid}
                 onClick={() => this.changeChannel(u)}
-                style={{ color: "white", fontStyle: "italic" }}
+                className={classes.Channel}
               >
                 @{u.name}
                 {/* <FiberManualRecordIcon
