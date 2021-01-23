@@ -1,12 +1,13 @@
 .MessageBox {
   margin: auto;
   padding: auto;
+  flex: 5;
 }
 .Messages {
   border-bottom: 2px outset rgba(10, 10, 0, 0.27);
-  overflow-y: auto;
   height: 70vh;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .Header {
   display: flex;
@@ -15,4 +16,7 @@
   align-items: center;
   margin: 7px;
   border-bottom: 1px solid rgba(10, 10, 0, 0.27);
+}
+.Messages:hover {
+  overflow-y: auto;
 }
