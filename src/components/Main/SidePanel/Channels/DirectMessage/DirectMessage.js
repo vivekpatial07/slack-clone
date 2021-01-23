@@ -80,29 +80,29 @@ class DirectMessage extends Component {
   };
   render() {
     return (
-      <Box alignItems="center">
-        <MessageIcon />
-        <br />
-        DirectMessage{"  "}({this.state.users.length})
-        <br />
-        <ul style={{ listStyle: "none" }}>
+      <div style={{ margin: "27px" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <MessageIcon />
+          DirectMessage{"  "}({this.state.users.length})
+        </div>
+        <div>
           {this.state.users.map((u) => {
             return (
-              <li
+              <div
                 key={u.uid}
                 onClick={() => this.changeChannel(u)}
                 style={{ color: "white", fontStyle: "italic" }}
               >
                 @{u.name}
-                <FiberManualRecordIcon
+                {/* <FiberManualRecordIcon
                   fontSize="small"
                   color={this.isUserOnline(u) ? "primary" : "secondary"}
-                />
-              </li>
+                /> */}
+              </div>
             );
           })}
-        </ul>
-      </Box>
+        </div>
+      </div>
     );
   }
 }

@@ -60,7 +60,7 @@ class Starred extends Component {
   }
   render() {
     return (
-      <div onClick={this.addListener}>
+      <div style={{ margin: "27px" }}>
         Starred{"      "}({this.state.starredChannels.length})
         <div>
           {this.state.starredChannels.map((channel) => {
