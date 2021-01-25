@@ -9,3 +9,6 @@
   width: 30px;
   border-radius: 100px;
 }
+.currentClass {
+  border-left: 5px solid #0f3443;
+}

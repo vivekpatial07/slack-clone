@@ -12,6 +12,9 @@ class Message extends Component {
     isLoading: true,
     onChannelRef: firebase.database().ref("channels"),
     onMessageRef: firebase.database().ref("messages"),
+    messageIds: [],
+    currentId: [],
+    id: "",
   };
 
   getMessageRef = () => {
@@ -21,12 +24,14 @@ class Message extends Component {
   };
   componentDidMount() {
     this.displayMessages();
+    this.isUserSame();
     // setTimeout(this.displayMessages, 2700);
     // this.setState({ isLoading: false });
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentChannel !== this.props.currentChannel) {
       this.displayMessages();
+      this.isUserSame();
 
       // setTimeout(this.displayMessages, 700);
       // this.displayMessages;
@@ -62,10 +67,37 @@ class Message extends Component {
       );
     }
   };
+  isUserSame = () => {
+    //will handle directmessages later
+    if (this.props.currentChannel) {
+      const messages = [];
+      this.state.onMessageRef
+        .child(this.props.currentChannel.id)
+        .on("child_added", (snap) => {
+          messages.push(snap.val());
+          this.setState({ messageIds: messages }, () => {
+            let currentUserMessages = messages.filter(
+              (msg) => msg.user.id === this.props.currentUser.uid
+            );
+            let id = currentUserMessages.map((msg) => {
+              return msg.user.id;
+            });
+            this.setState({ currentId: id });
+          });
+        });
+    }
+  };
   render() {
     const showMessages = this.state.messages.map((message, i) => {
       return (
-        <div key={message.timestamp} className={classes.Message}>
+        <div
+          key={message.timestamp}
+          className={`${classes.Message} ${
+            this.state.currentId[0] === message.user.id
+              ? classes.currentClass
+              : null
+          } `}
+        >
           <Avatar
             src={message.user.avatar}
             style={{ height: "27px", width: "27px", borderRadius: "27px" }}
@@ -91,6 +123,7 @@ const mapStateToProps = (state) => {
   return {
     currentChannel: state.channel.currentChannel,
     isPrivate: state.channel.isPrivate,
+    currentUser: state.user.currentUser,
   };
 };
 export default connect(mapStateToProps, { setChannel })(Message);
