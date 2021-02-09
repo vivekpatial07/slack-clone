@@ -93,10 +93,10 @@ class DirectMessage extends Component {
                 className={classes.Channel}
               >
                 @{u.name}
-                {/* <FiberManualRecordIcon
+                <FiberManualRecordIcon
                   fontSize="small"
                   color={this.isUserOnline(u) ? "primary" : "secondary"}
-                /> */}
+                />
               </div>
             );
           })}
