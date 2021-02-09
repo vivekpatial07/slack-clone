@@ -207,17 +207,19 @@ class MessageBox extends Component {
           {this.props.currentChannel ? (
             <h2 style={{ verticalAlign: "middle", marginRight: "auto" }}>
               {this.props.currentChannel.name}
-              {this.state.isStarred ? (
-                <StarIcon
-                  onClick={this.starClicked}
-                  style={{ verticalAlign: "middle" }}
-                />
-              ) : (
-                <StarOutlineOutlinedIcon
-                  style={{ verticalAlign: "middle" }}
-                  onClick={this.starClicked}
-                />
-              )}
+              {!this.props.isPrivate ? (
+                this.state.isStarred ? (
+                  <StarIcon
+                    onClick={this.starClicked}
+                    style={{ verticalAlign: "middle" }}
+                  />
+                ) : (
+                  <StarOutlineOutlinedIcon
+                    style={{ verticalAlign: "middle" }}
+                    onClick={this.starClicked}
+                  />
+                )
+              ) : null}
             </h2>
           ) : (
             <h2>Loading...</h2>
