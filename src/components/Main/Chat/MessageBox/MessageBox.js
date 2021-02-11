@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import classes from "./MessageBox.css";
 import Message from "./Message/Message";
 import firebase from "../../../../firebase";
-import { setChannel, starChannel } from "../../../../store/actions";
+import { setChannel, starChannel, showPanel } from "../../../../store/actions";
 import Modal from "./Modal/Modal";
 import uuidv4 from "uuid/v4";
 import { Button, TextField } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 //for star marking
 import StarOutlineOutlinedIcon from "@material-ui/icons/StarOutlineOutlined";
 import StarIcon from "@material-ui/icons/Star";
@@ -200,9 +201,16 @@ class MessageBox extends Component {
         });
     }
   };
+  showSidePanel = () => {
+    console.log(`sow`);
+    this.props.showPanel();
+  };
   render() {
     return (
       <div className={classes.MessageBox}>
+        {/* <div className={classes.Hamburger}>
+          <ArrowRightAltIcon fontSize="large" onClick={this.showSidePanel} />
+        </div> */}
         <div className={classes.Header}>
           {this.props.currentChannel ? (
             <h2 style={{ verticalAlign: "middle", marginRight: "auto" }}>
@@ -304,6 +312,6 @@ const mapStateToProps = (state) => {
     isStarred: state.channel.isStarred,
   };
 };
-export default connect(mapStateToProps, { setChannel, starChannel })(
+export default connect(mapStateToProps, { setChannel, starChannel, showPanel })(
   MessageBox
 );

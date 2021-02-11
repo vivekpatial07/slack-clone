@@ -1,7 +1,7 @@
 .MessageBox {
   margin: auto;
   padding: auto;
-  flex: 10;
+  /* flex: 10; */
 }
 .Messages {
   border-bottom: 2px outset rgba(10, 10, 0, 0.27);
@@ -20,3 +20,17 @@
 .Messages:hover {
   overflow-y: auto;
 }
+.Hamburger {
+  /* background-color: black; */
+  height: 7px;
+  width: 27px;
+  margin: 5px 0;
+  display: flow;
+  z-index: 7;
+  cursor: pointer;
+}
+/* @media (min-width: 801px) {
+  .Hamburger {
+    display: none;
+  }
+} */

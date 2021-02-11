@@ -6,6 +6,6 @@
     #34e89e
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #0f3443, #34e89e);
-  flex: 1;
+  /* flex: 1; */
   color: #eee;
 }

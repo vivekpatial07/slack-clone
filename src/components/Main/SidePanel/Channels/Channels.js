@@ -76,7 +76,6 @@ class Channels extends Component {
   handleNotifications = (channelId, currentChannelId, notifications, snap) => {
     let lastTotal = 0;
     let index = notifications.findIndex((notif) => notif.id === channelId);
-
     if (index !== -1) {
       if (channelId !== currentChannelId) {
         lastTotal = notifications[index].total;
@@ -186,17 +185,19 @@ class Channels extends Component {
           {this.getNotificationCount(channel) && (
             <div
               style={{
-                height: "50px",
+                height: "20px",
+                width: "20px",
                 borderRadius: "27px",
                 backgroundColor: "red",
               }}
             >
+              {/* {console.log(this.getNotificationCount(channel))} */}
               {this.getNotificationCount(channel)}
             </div>
           )}
-          {this.getNotificationCount(channel) && (
+          {/* {this.getNotificationCount(channel) && (
             <p>{this.getNotificationCount(channel)}</p>
-          )}
+          )} */}
         </div>
       );
     });

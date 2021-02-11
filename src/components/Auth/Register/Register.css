@@ -4,7 +4,7 @@
  */
 
 h1 {
-  color: #eee8e6;
+  color: #696969;
 }
 .Register {
   text-align: center;
@@ -14,7 +14,7 @@ h1 {
   text-align: center;
   height: 350px;
   border: 1px solid grey;
-  width: 27%;
+  width: 400px;
   padding: 10px;
   margin: auto;
   box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
@@ -24,7 +24,7 @@ h1 {
 }
 .RegisterCard {
   background-color: #fff;
-  width: 27%;
+  width: 300px;
   border: 1px solid grey;
   margin: 20px auto;
   height: 50px;

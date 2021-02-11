@@ -1,24 +1,19 @@
 .SidePanel {
-  /* background: #eb5757;
-  background: -webkit-linear-gradient(to bottom, #000000, #eb5757); */
-  /* background: linear-gradient(to bottom, #000000, #eb5757); */
-
-  background: #34e89e; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #0f3443,
-    #34e89e
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #0f3443,
-    #082c1d
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #34e89e;
+  background: -webkit-linear-gradient(to bottom, #0f3443, #34e89e);
+  background: linear-gradient(to bottom, #0f3443, #082c1d);
   color: #eee;
-  flex: 0.5;
+  /* flex: 0.5; */
   overflow: hidden;
+  height: 100vh;
+  box-sizing: border-box;
 }
 .SidePanel:hover {
   overflow-y: auto;
 }
+
+/* @media (max-width: 801px) {
+  .SidePanel {
+    display: none;
+  }
+} */

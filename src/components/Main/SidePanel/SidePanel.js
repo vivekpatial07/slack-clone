@@ -109,94 +109,98 @@ class SidePanel extends Component {
   };
   render() {
     return (
-      <div className={classes.SidePanel}>
-        <h2>
-          {this.state.previewImage && this.state.prevImage}
-          <CodeRoundedIcon />
-          <Typography>Slack-Clone</Typography>
-        </h2>
-        <div
-          style={{
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          {/* need to restyle  */}
-          <img
-            style={{
-              margin: "auto",
-              height: "27px",
-              width: "27px",
-              borderRadius: "27px",
-            }}
-            alt="avatar"
-            src={this.props.avatar}
-          />
-          <Typography>{this.props.username}</Typography>
-        </div>
-        <Button
-          size="small"
-          variant="contained"
-          onClick={this.showModal}
-          color="secondary"
-        >
-          Change Avatar
-        </Button>
-
-        <Button
-          size="small"
-          variant="contained"
-          onClick={this.signOutHandler}
-          color="secondary"
-        >
-          Sign Out!
-        </Button>
-        <div>
-          {/* change the typography from here to channels components */}
-          <Box>
-            <Starred />
-          </Box>
-          <Box>
-            <Channels />
-          </Box>
-          <Box>
-            <DirectMessage />
-          </Box>
-        </div>
-        {this.state.showModal ? (
-          <div>
-            <AvatarModal
-              closeModal={() => {
-                this.setState({ showModal: false });
+      <div>
+        {this.props.showPanel ? (
+          <div className={classes.SidePanel}>
+            <h2>
+              {this.state.previewImage && this.state.prevImage}
+              <CodeRoundedIcon />
+              <Typography>Slack-Clone</Typography>
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                textAlign: "center",
+                justifyContent: "center",
+                flexDirection: "column",
               }}
-              uploadAvatar={this.uploadAvatar}
-              changeHandler={this.changeHandler}
-              // prevImage={this.state.previewImage}
-              // ref={(node) => (this.avatarEditor = node)}
-            />
-            {this.state.previewImage && (
-              <div
+            >
+              {/* need to restyle  */}
+              <img
                 style={{
-                  zIndex: "700",
-                  position: "fixed",
-                  left: "50%",
-                  top: "50%",
-                  transform: " translate(-50%, -50%)",
+                  margin: "auto",
+                  height: "27px",
+                  width: "27px",
+                  borderRadius: "27px",
                 }}
-              >
-                <AvatarEditor
-                  image={this.state.previewImage}
-                  width={140}
-                  height={140}
-                  border={27}
-                  borderRadius={70}
-                  scale={1.4}
-                  ref={(node) => (this.avatarEditor = node)}
+                alt="avatar"
+                src={this.props.avatar}
+              />
+              <Typography>{this.props.username}</Typography>
+            </div>
+            <Button
+              size="small"
+              variant="contained"
+              onClick={this.showModal}
+              color="secondary"
+            >
+              Change Avatar
+            </Button>
+
+            <Button
+              size="small"
+              variant="contained"
+              onClick={this.signOutHandler}
+              color="secondary"
+            >
+              Sign Out!
+            </Button>
+            <div>
+              {/* change the typography from here to channels components */}
+              <Box>
+                <Starred />
+              </Box>
+              <Box>
+                <Channels />
+              </Box>
+              <Box>
+                <DirectMessage />
+              </Box>
+            </div>
+            {this.state.showModal ? (
+              <div>
+                <AvatarModal
+                  closeModal={() => {
+                    this.setState({ showModal: false });
+                  }}
+                  uploadAvatar={this.uploadAvatar}
+                  changeHandler={this.changeHandler}
+                  // prevImage={this.state.previewImage}
+                  // ref={(node) => (this.avatarEditor = node)}
                 />
+                {this.state.previewImage && (
+                  <div
+                    style={{
+                      zIndex: "700",
+                      position: "fixed",
+                      left: "50%",
+                      top: "50%",
+                      transform: " translate(-50%, -50%)",
+                    }}
+                  >
+                    <AvatarEditor
+                      image={this.state.previewImage}
+                      width={140}
+                      height={140}
+                      border={27}
+                      borderRadius={70}
+                      scale={1.4}
+                      ref={(node) => (this.avatarEditor = node)}
+                    />
+                  </div>
+                )}
               </div>
-            )}
+            ) : null}
           </div>
         ) : null}
       </div>
@@ -208,6 +212,7 @@ const mapStateToProps = (state) => {
     username: state.user.currentUser.displayName,
     avatar: state.user.currentUser.photoURL,
     currentUser: state.user.currentUser,
+    showPanel: state.side.showPanel,
   };
 };
 export default connect(mapStateToProps, { setUser })(SidePanel);

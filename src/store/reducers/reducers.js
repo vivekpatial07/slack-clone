@@ -50,8 +50,20 @@ const channelReducer = (state = initialChannelState, action) => {
       return state;
   }
 };
+const initialSideState = {
+  showPanel: true,
+};
+const sidePanelReducer = (state = initialSideState, action) => {
+  switch (action.type) {
+    case actionTypes.SHOW_PANEL:
+      return { ...state, showPanel: true };
+    default:
+      return state;
+  }
+};
 const rootReducer = combineReducers({
   user: userReducer,
   channel: channelReducer,
+  side: sidePanelReducer,
 });
 export default rootReducer;

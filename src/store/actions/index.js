@@ -41,3 +41,9 @@ export const starChannel = (isStarred) => {
     },
   };
 };
+//for side panel
+export const showPanel = () => {
+  return {
+    type: actionTypes.SHOW_PANEL,
+  };
+};
